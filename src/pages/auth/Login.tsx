@@ -11,15 +11,18 @@ import {
 } from '@mantine/core';
 import { useNavigate } from 'react-router-dom';
 import { useAuthStore } from '../../store/auth.store';
+import { Eye, EyeOff } from 'react-feather';
+
 
 const Login = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
+  const [showPassword, setShowPassword] = useState(false);
   const login = useAuthStore((state) => state.login);
   const navigate = useNavigate();
 
-  const validatePasswordFormat = (pwd:any) => {
+  const validatePasswordFormat = (pwd: any) => {
     const hasUpperCase = /[A-Z]/.test(pwd);
     const hasNumber = /\d/.test(pwd);
     const hasSpecial = /[^A-Za-z0-9]/.test(pwd);
@@ -66,7 +69,7 @@ const Login = () => {
 
   return (
     <Center h="100vh" bg="#f4f7fa">
-      <Paper maw={400} h={480} w="100%" mx="auto" shadow="md" radius="md" withBorder p={'lg'}>
+      <Paper maw={400} h={450} w="100%" mx="auto" shadow="md" radius="md" withBorder p={'lg'}>
         <Title
           order={2}
           color="#232F53"
@@ -83,7 +86,7 @@ const Login = () => {
           <Stack spacing="md">
             <TextInput
               label="Username"
-              placeholder="Enter admin"
+              placeholder="Enter your email"
               value={username}
               labelProps={{
                 style: {
@@ -97,8 +100,8 @@ const Login = () => {
             />
             <TextInput
               label="Password"
-              type="password"
-              placeholder="Enter Admin@123"
+              type={showPassword ? 'text' : 'password'}
+              placeholder="Enter you passsword"
               value={password}
               labelProps={{
                 style: {
@@ -109,7 +112,16 @@ const Login = () => {
               }}
               onChange={(e) => setPassword(e.target.value)}
               required
+              rightSection={
+                <Box
+                  onClick={() => setShowPassword((prev) => !prev)}
+                  style={{ cursor: 'pointer' }}
+                >
+                  {showPassword ? <Eye size={18} /> : <EyeOff size={18} />}
+                </Box>
+              }
             />
+
 
             {errorMessage && (
               <Text color="red" size="sm" align="left">
