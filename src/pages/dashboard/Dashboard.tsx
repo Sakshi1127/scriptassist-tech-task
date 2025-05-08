@@ -4,7 +4,6 @@ import {
   Table,
   Loader,
   TextInput,
-  Select,
   Pagination,
   Group,
   Paper,
@@ -30,11 +29,10 @@ const Dashboard = () => {
   const [currentPage, setCurrentPage] = useState(1);
   const [sortDirection, setSortDirection] = useState<"asc" | "desc">("asc");
 
-  // New states for filter modal and filter values
   const [opened, setOpened] = useState(false);
   const [tempStatusFilter, setTempStatusFilter] = useState<string[]>([]);
   const [tempFairingFilter, setTempFairingFilter] = useState<string[]>([]);
-  const [statusFilter, setStatusFilter] = useState<string[]>([]); // success or failed
+  const [statusFilter, setStatusFilter] = useState<string[]>([]); 
   const [fairingFilter, setFairingFilter] = useState<string[]>([]);
 
   const pageSize = 10;
@@ -44,6 +42,7 @@ const Dashboard = () => {
     logout();
     navigate("/login");
   };
+
   // Apply filters to the data
   const filtered = useMemo(() => {
     return data.filter((launch: any) => {
@@ -70,6 +69,7 @@ const Dashboard = () => {
     });
   }, [data, search, statusFilter, fairingFilter]);
 
+  //apply sorting to the data
   const sorted = useMemo(() => {
     return [...filtered].sort((a: any, b: any) => {
       let result = 0;
@@ -82,6 +82,8 @@ const Dashboard = () => {
       return sortDirection === "asc" ? result : -result;
     });
   }, [filtered, sortField, sortDirection]);
+
+
 
   const handleSort = (field: string) => {
     if (sortField === field) {
@@ -142,6 +144,8 @@ const Dashboard = () => {
         </Button>
       </Group>
 
+
+       {/* creating table  */}
       <Table highlightOnHover withBorder>
         <thead style={{ backgroundColor: "#e7f3ff", color: "#1c3f60" }}>
           <tr>
@@ -316,6 +320,8 @@ const Dashboard = () => {
         </tbody>
       </Table>
 
+
+       {/* adding pagination */}
       {!isLoading && sorted.length > pageSize && (
         <Group position="right" mt="md">
           <Pagination
